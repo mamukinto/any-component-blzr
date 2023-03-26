@@ -1,0 +1,65 @@
+﻿@page "/conway-game-of-life"
+@inherits GameOfLifeViewModel
+
+
+<div class="d-flex">
+
+    <div style="display:flex; flex-direction:column; justify-content:space-evenly;">
+        <div>
+            Number of cells horizontally: <InputNumber @bind-Value="Width" />
+        </div>
+        <div>
+            Number of cells vertically: <InputNumber @bind-Value="Height" />
+        </div>
+        <div>
+            Number of neighbours for a dead cell to "birth"
+            <InputNumber @bind-Value="NEIGHBOURS_TO_BIRTH" />
+        </div>
+        <div>
+            Number of underpopulation limit
+            <InputNumber @bind-Value="UNDERPOPULATION_LIMIT" />
+        </div>
+        <div>
+            Number of overpopulation limit
+            <InputNumber @bind-Value="OVERPOPULATION_LIMIT" />
+        </div>
+        <div>
+            Delay in iterations (in ms)
+            <InputNumber @bind-Value="DELAY_IN_MILLISECONDS" />
+        </div>
+        <button @onclick="StartSimulation">Start</button>
+        <button @onclick="() => { simulating = false; }">Pause</button>
+        <button @onclick="ResetDefaults">Reset defaults</button>
+    </div>
+
+
+    
+    <div class="game-container">
+        @for (int x = 0; x < width; x++)
+        {
+            int realX = x;
+            <div class="d-flex">
+                @for (int y = 0; y < height; y++)
+                {
+                    int realY = y;
+                    if (Map[x, y] == 0)
+                    {
+                        <div @onclick="() => OnCellClick(realX,realY)" class="cell"></div>
+                    }
+                    else
+                    {
+                        <div @onclick="() => OnCellClick(realX,realY)" class="cell" style="color:white;background-color:black;"></div>
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .cell {
+        border: 1px solid black;
+        width: @(cssWidth)px;
+        height: @(cssHeight)px;
+    }
+</style>
